@@ -10,18 +10,14 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 var createWindow = function () {
     // Create the browser window.
     var mainWindow = new electron_1.BrowserWindow({
-        height: 600,
-        width: 800,
+        height: 700,
+        width: 933,
         webPreferences: {
             nodeIntegration: true
         }
     });
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, '../src/index.html'));
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools();
-    setTimeout(function () { mainWindow.webContents.send("travis-build-status", 1); }, 5000);
-    console.log("hello, world!");
 };
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -42,6 +38,17 @@ electron_1.app.on('activate', function () {
         createWindow();
     }
 });
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+var repoPath = "/home/david/Documents/fun-facts";
+var Fact = /** @class */ (function () {
+    function Fact() {
+    }
+    return Fact;
+}());
+function printFact(fact) {
+    var dateString = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate();
+    return "!meta\n\ntitle:" + fact.Title + "\nurl:" + fact.Url + "\ncontributors:" + fact.Contributors + "\ncreated:" + dateString + "\nmodified:" + dateString + "\ntags:" + fact.Tags + "\n\n!endmeta\n" + fact.Body + "\n";
+}
+ipc.on("create-fact", function (event, args) {
+    console.log(printFact(args));
+});
 //# sourceMappingURL=index.js.map

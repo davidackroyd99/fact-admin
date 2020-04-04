@@ -1,15 +1,17 @@
 const { ipcRenderer } = require('electron');
 
-var buildStatusElem = document.getElementById('build-status')
+document.getElementById("nf-submit").addEventListener("click", createFact)
 
-ipcRenderer.on('travis-build-status', function (event, arg) {
-	status = Number(arg);
+function createFact() {
+	ipcRenderer.send("create-fact", getNewFactData());
+}
 
-	console.log("client");
-	if(status == 1) {
-		buildStatusElem.innerHTML = "Travis build status: <span style='color:green;'>passing</span>";
-	}
-	else {
-		buildStatusElem.innerHTML = "Travis build status: <span style='color:red;'>failing</span>";
-	}
-})
+function getNewFactData() {
+	return {
+		"Title": document.getElementById("nf-title").value,
+		"Url": document.getElementById("nf-url").value,
+		"Contributors": document.getElementById("nf-contrib").value,
+		"Tags": document.getElementById("nf-tags").value,
+		"Body": document.getElementById("nf-body").value,
+	};
+}

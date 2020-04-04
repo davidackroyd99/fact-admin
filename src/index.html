@@ -14,11 +14,22 @@
 				</div>
 				<div class="section travis-section">
 					<h1>Travis CI</h1>
-					<p id="build-status">Travis build status: </p>
+					<img src="https://travis-ci.com/davidackroyd99/dotnetfunfacts.svg?branch=master">
 				</div>
 			</div>
 			<div class="right-col">
-				
+				<div class="section create-section">
+					<h1>New Fact</h1>
+					<div class="form-field"><p>Title: </p><input type="text" id="nf-title"/></div>
+					<div class="form-field"><p>Url: </p><input type="text" id="nf-url"/></div>
+					<div class="form-field"><p>Contributors: </p><input type="text" id="nf-contrib"/></div>
+					<div class="form-field"><p>Tags: </p><input type="text" id="nf-tags"/></div>
+					<div>
+						<p>Fact Body: </p>
+						<textarea id="nf-body"></textarea>
+						<button id="nf-submit">Create</button>
+					</div>
+				</div>
 			</div>
 		</div>
 		<script src="app.js"></script>

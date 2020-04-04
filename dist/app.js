@@ -1,13 +1,15 @@
 var ipcRenderer = require('electron').ipcRenderer;
-var buildStatusElem = document.getElementById('build-status');
-ipcRenderer.on('travis-build-status', function (event, arg) {
-    status = Number(arg);
-    console.log("client");
-    if (status == 1) {
-        buildStatusElem.innerHTML = "Travis build status: <span style='color:green;'>passing</span>";
-    }
-    else {
-        buildStatusElem.innerHTML = "Travis build status: <span style='color:red;'>failing</span>";
-    }
-});
+document.getElementById("nf-submit").addEventListener("click", createFact);
+function createFact() {
+    ipcRenderer.send("create-fact", getNewFactData());
+}
+function getNewFactData() {
+    return {
+        "Title": document.getElementById("nf-title").value,
+        "Url": document.getElementById("nf-url").value,
+        "Contributors": document.getElementById("nf-contrib").value,
+        "Tags": document.getElementById("nf-tags").value,
+        "Body": document.getElementById("nf-body").value
+    };
+}
 //# sourceMappingURL=app.js.map
