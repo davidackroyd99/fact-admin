@@ -2,6 +2,7 @@
 exports.__esModule = true;
 var electron_1 = require("electron");
 var path = require("path");
+var ipc = require('electron').ipcMain;
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
     electron_1.app.quit();
@@ -10,12 +11,17 @@ var createWindow = function () {
     // Create the browser window.
     var mainWindow = new electron_1.BrowserWindow({
         height: 600,
-        width: 800
+        width: 800,
+        webPreferences: {
+            nodeIntegration: true
+        }
     });
     // and load the index.html of the app.
     mainWindow.loadFile(path.join(__dirname, '../src/index.html'));
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
+    setTimeout(function () { mainWindow.webContents.send("travis-build-status", 1); }, 5000);
+    console.log("hello, world!");
 };
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

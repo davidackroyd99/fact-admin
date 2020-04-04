@@ -1,6 +1,8 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 
+const ipc = require('electron').ipcMain
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
 	app.quit();
@@ -11,6 +13,9 @@ const createWindow = () => {
 	const mainWindow = new BrowserWindow({
 		height: 600,
 		width: 800,
+		webPreferences: {
+			nodeIntegration: true
+		}
 	});
 
 	// and load the index.html of the app.
@@ -18,6 +23,9 @@ const createWindow = () => {
 
 	// Open the DevTools.
 	mainWindow.webContents.openDevTools();
+
+	setTimeout(function() { mainWindow.webContents.send("travis-build-status", 1); }, 5000);
+	console.log("hello, world!");
 };
 
 // This method will be called when Electron has finished
@@ -38,9 +46,10 @@ app.on('activate', () => {
 	// On OS X it's common to re-create a window in the app when the
 	// dock icon is clicked and there are no other windows open.
 	if (BrowserWindow.getAllWindows().length === 0) {
-		createWindow();
+		createWindow();	
 	}
 });
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
