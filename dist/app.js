@@ -12,4 +12,7 @@ function getNewFactData() {
         "Body": document.getElementById("nf-body").value
     };
 }
+document.getElementById("task-publish").addEventListener("click", function () {
+    ipcRenderer.send("publish");
+});
 //# sourceMappingURL=app.js.map

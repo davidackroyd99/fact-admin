@@ -15,3 +15,7 @@ function getNewFactData() {
 		"Body": document.getElementById("nf-body").value,
 	};
 }
+
+document.getElementById("task-publish").addEventListener("click", () => {
+	ipcRenderer.send("publish")
+})

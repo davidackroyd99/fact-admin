@@ -3,6 +3,7 @@ import * as path from 'path';
 
 const ipc = require('electron').ipcMain
 const fs = require('fs');
+const { exec } = require('child_process');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -45,7 +46,7 @@ app.on('activate', () => {
 	}
 });
 
-const repoPath = "/home/david/Documents/fun-facts";
+const repoPath = "/home/david/Documents/dotnetfunfacts";
 
 class Fact {
 	public Title: string;
@@ -72,8 +73,16 @@ ${fact.Body}
 `;
 }
 
-ipc.on("create-fact", function(event, args: Fact) {
+ipc.on("create-fact", (event, args: Fact) => {
 	fs.writeFile(repoPath + "/facts/" + args.Url + ".md", printFact(args), function (err: any) {
 		console.log(err);
 	});
 });
+
+ipc.on("publish", () => {
+	publish();
+});
+
+function publish () {
+	exec("./scripts/publish.sh", { cwd: repoPath}, () => { console.log("done"); });
+}

@@ -4,6 +4,7 @@ var electron_1 = require("electron");
 var path = require("path");
 var ipc = require('electron').ipcMain;
 var fs = require('fs');
+var exec = require('child_process').exec;
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
     electron_1.app.quit();
@@ -39,7 +40,7 @@ electron_1.app.on('activate', function () {
         createWindow();
     }
 });
-var repoPath = "/home/david/Documents/fun-facts";
+var repoPath = "/home/david/Documents/dotnetfunfacts";
 var Fact = /** @class */ (function () {
     function Fact() {
     }
@@ -54,4 +55,10 @@ ipc.on("create-fact", function (event, args) {
         console.log(err);
     });
 });
+ipc.on("publish", function () {
+    publish();
+});
+function publish() {
+    exec("./scripts/publish.sh", { cwd: repoPath }, function () { console.log("done"); });
+}
 //# sourceMappingURL=index.js.map
