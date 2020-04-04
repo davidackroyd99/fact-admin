@@ -3,6 +3,7 @@ exports.__esModule = true;
 var electron_1 = require("electron");
 var path = require("path");
 var ipc = require('electron').ipcMain;
+var fs = require('fs');
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
     electron_1.app.quit();
@@ -49,6 +50,8 @@ function printFact(fact) {
     return "!meta\n\ntitle:" + fact.Title + "\nurl:" + fact.Url + "\ncontributors:" + fact.Contributors + "\ncreated:" + dateString + "\nmodified:" + dateString + "\ntags:" + fact.Tags + "\n\n!endmeta\n" + fact.Body + "\n";
 }
 ipc.on("create-fact", function (event, args) {
-    console.log(printFact(args));
+    fs.writeFile(repoPath + "/facts/" + args.Url + ".md", printFact(args), function (err) {
+        console.log(err);
+    });
 });
 //# sourceMappingURL=index.js.map

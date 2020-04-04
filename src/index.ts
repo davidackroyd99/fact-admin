@@ -2,6 +2,7 @@ import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 
 const ipc = require('electron').ipcMain
+const fs = require('fs');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -52,11 +53,6 @@ class Fact {
 	public Contributors: string;
 	public Tags: string;
 	public Body: string;
-
-	/**
-	 * print
-	 */
-
 }
 
 function printFact(fact: Fact) {
@@ -77,5 +73,7 @@ ${fact.Body}
 }
 
 ipc.on("create-fact", function(event, args: Fact) {
-	console.log(printFact(args));
+	fs.writeFile(repoPath + "/facts/" + args.Url + ".md", printFact(args), function (err: any) {
+		console.log(err);
+	});
 });
