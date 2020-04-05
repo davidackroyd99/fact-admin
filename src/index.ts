@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, IpcMain } from 'electron';
 import * as path from 'path';
 
 const ipc = require('electron').ipcMain
@@ -79,10 +79,13 @@ ipc.on("create-fact", (event, args: Fact) => {
 	});
 });
 
-ipc.on("publish", () => {
-	publish();
-});
 
-function publish () {
-	exec("./scripts/publish.sh", { cwd: repoPath}, () => { console.log("done"); });
+function LinkScriptToEvent(ipc: IpcMain, scriptName: string, receiveEvent: string, sendEvent: string) {
+	ipc.on(receiveEvent, () => {
+		exec(`./scripts/${scriptName}.sh`, { cwd: repoPath}, () => { 
+			ipc.emit(sendEvent);
+		});
+	});
 }
+
+LinkScriptToEvent(ipc, "publish", "publish", "publish-complete");

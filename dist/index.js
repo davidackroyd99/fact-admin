@@ -55,10 +55,12 @@ ipc.on("create-fact", function (event, args) {
         console.log(err);
     });
 });
-ipc.on("publish", function () {
-    publish();
-});
-function publish() {
-    exec("./scripts/publish.sh", { cwd: repoPath }, function () { console.log("done"); });
+function LinkScriptToEvent(ipc, scriptName, receiveEvent, sendEvent) {
+    ipc.on(receiveEvent, function () {
+        exec("./scripts/" + scriptName + ".sh", { cwd: repoPath }, function () {
+            ipc.emit(sendEvent);
+        });
+    });
 }
+LinkScriptToEvent(ipc, "publish", "publish", "publish-complete");
 //# sourceMappingURL=index.js.map
