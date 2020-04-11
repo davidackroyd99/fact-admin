@@ -89,3 +89,5 @@ function LinkScriptToEvent(ipc: IpcMain, scriptName: string, receiveEvent: strin
 }
 
 LinkScriptToEvent(ipc, "publish", "publish", "publish-complete");
+LinkScriptToEvent(ipc, "get-latest", "get-latest", "latest-complete");
+LinkScriptToEvent(ipc, "local-build", "build-site", "build-complete");

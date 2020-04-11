@@ -15,4 +15,13 @@ function getNewFactData() {
 document.getElementById("task-publish").addEventListener("click", function () {
     ipcRenderer.send("publish");
 });
+document.getElementById("task-latest").addEventListener("click", function () {
+    ipcRenderer.send("get-latest");
+});
+document.getElementById("task-build").addEventListener("click", function () {
+    ipcRenderer.send("local-build");
+});
+ipcRenderer.on("publish-complete", function (events, args) {
+    console.log("publish complete");
+});
 //# sourceMappingURL=app.js.map

@@ -14,7 +14,15 @@
 				</div>
 				<div class="section travis-section">
 					<h1>Travis CI</h1>
-					<img src="https://travis-ci.com/davidackroyd99/dotnetfunfacts.svg?branch=master">
+					<div>
+						<button id="travis-build">Queue</button>
+					</div>
+				</div>
+				<div class="section task-section">
+					<h1>Tasks</h1>
+					<button id="task-latest">Get Latest</button>
+					<button id="task-build">Build Locally</button>
+					<button id="task-publish">Publish Changes</button>
 				</div>
 			</div>
 			<div class="right-col">
@@ -28,7 +36,6 @@
 						<p>Fact Body: </p>
 						<textarea id="nf-body"></textarea>
 						<button id="nf-submit">Create</button>
-						<button id="task-publish">Publish</button>
 					</div>
 				</div>
 			</div>

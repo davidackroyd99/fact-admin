@@ -9,6 +9,28 @@ h1 {
 	margin: 0px;
 }
 
+p {
+	font-size: 16px;
+}
+
+button {
+	background-color: #0f4c75;
+	border: none;
+	color: white;
+	padding: 8px 24px;
+	text-align: center;
+	display: inline-block;
+	outline: none;
+	font-size: 16px;
+	border-radius: 8px;
+	margin: 8px 8px;
+	width: 100px;
+}
+
+button:hover {
+	background-color: #3282b8;
+}
+
 .main-content {
 	display: flex;
 }
@@ -28,14 +50,6 @@ h1 {
 	margin: 16px;
 	border-radius: 8px;
 	padding: 16px;
-}
-
-.travis-section img {
-	width: 75%;
-	display: block;
-	margin-top: 16px;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 .create-section textarea {

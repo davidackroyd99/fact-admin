@@ -63,4 +63,6 @@ function LinkScriptToEvent(ipc, scriptName, receiveEvent, sendEvent) {
     });
 }
 LinkScriptToEvent(ipc, "publish", "publish", "publish-complete");
+LinkScriptToEvent(ipc, "get-latest", "get-latest", "latest-complete");
+LinkScriptToEvent(ipc, "local-build", "build-site", "build-complete");
 //# sourceMappingURL=index.js.map

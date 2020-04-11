@@ -18,4 +18,16 @@ function getNewFactData() {
 
 document.getElementById("task-publish").addEventListener("click", () => {
 	ipcRenderer.send("publish")
+});
+
+document.getElementById("task-latest").addEventListener("click", () => {
+	ipcRenderer.send("get-latest")
+});
+
+document.getElementById("task-build").addEventListener("click", () => {
+	ipcRenderer.send("local-build")
+});
+
+ipcRenderer.on("publish-complete", function(events, args) {
+	console.log("publish complete");
 })
