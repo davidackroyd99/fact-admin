@@ -79,12 +79,13 @@ ipc.on("create-fact", (event, args: Fact) => {
 	});
 });
 
-
 function LinkScriptToEvent(ipc: IpcMain, scriptName: string, receiveEvent: string, sendEvent: string) {
-	ipc.on(receiveEvent, () => {
-		exec(`./scripts/${scriptName}.sh`, { cwd: repoPath}, () => { 
-			ipc.emit(sendEvent);
-		});
+	ipc.on(receiveEvent, (event, args) => {
+		exec(`./scripts/${scriptName}.sh`, { cwd: repoPath})
+			.on('exit', (code: number) => {
+				console.log('script complete');
+				event.reply(sendEvent, code);
+			});
 	});
 }
 

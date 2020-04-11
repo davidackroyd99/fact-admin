@@ -16,17 +16,29 @@ function getNewFactData() {
 	};
 }
 
-ipcRenderer.on("publish-complete", function(events, args) {
+ipcRenderer.on("publish-complete", function(event, args) {
 	console.log("publish complete");
 })
 
 var registerButton = (buttonId, sendEvent, listenFor) => {
-	document.getElementById(buttonId).addEventListener("click", () => {
-		document.getElementById(buttonId).style.visibility = "hidden";
+	var elem = document.getElementById(buttonId);
+
+	elem.addEventListener("click", () => {
+		elem.style.visibility = "hidden";
 		ipcRenderer.send(sendEvent);
 	});
+
+	ipcRenderer.on(listenFor, function(event, exitCode) {
+		console.log(`complete, exit code ${exitCode}`);
+
+		if(exitCode !== 0) {
+			alert(`${sendEvent} failed.`);
+		}
+
+		elem.style.visibility = "visible";
+	})
 }
 
-registerButton("task-publish", "publish", undefined);
-registerButton("task-latest", "get-latest", undefined);
-registerButton("task-build", "local-build", undefined);
+registerButton("task-publish", "publish", "publish-complete");
+registerButton("task-latest", "get-latest", "latest-complete");
+registerButton("task-build", "local-build", "build-complete");

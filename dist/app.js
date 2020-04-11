@@ -1,4 +1,3 @@
-var _this = this;
 var ipcRenderer = require('electron').ipcRenderer;
 document.getElementById("nf-submit").addEventListener("click", createFact);
 function createFact() {
@@ -13,19 +12,24 @@ function getNewFactData() {
         "Body": document.getElementById("nf-body").value
     };
 }
-document.getElementById("task-publish").addEventListener("click", function () {
-    _this.style.visibility = 'hidden';
-    ipcRenderer.send("publish");
-});
-document.getElementById("task-latest").addEventListener("click", function () {
-    _this.style.visibility = 'hidden';
-    ipcRenderer.send("get-latest");
-});
-document.getElementById("task-build").addEventListener("click", function () {
-    _this.style.visibility = 'hidden';
-    ipcRenderer.send("local-build");
-});
-ipcRenderer.on("publish-complete", function (events, args) {
+ipcRenderer.on("publish-complete", function (event, args) {
     console.log("publish complete");
 });
+var registerButton = function (buttonId, sendEvent, listenFor) {
+    var elem = document.getElementById(buttonId);
+    elem.addEventListener("click", function () {
+        elem.style.visibility = "hidden";
+        ipcRenderer.send(sendEvent);
+    });
+    ipcRenderer.on(listenFor, function (event, exitCode) {
+        console.log("complete, exit code " + exitCode);
+        if (exitCode !== 0) {
+            alert(sendEvent + " failed.");
+        }
+        elem.style.visibility = "visible";
+    });
+};
+registerButton("task-publish", "publish", "publish-complete");
+registerButton("task-latest", "get-latest", "latest-complete");
+registerButton("task-build", "local-build", "build-complete");
 //# sourceMappingURL=app.js.map
